@@ -22,11 +22,35 @@ public class Email
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    public Email(string mailClient, string user, string pass)
+    {
+        this.emailUsername = user;
+        this.emailPassword = pass;
+        this.smtpClient = new SmtpClient(mailClient);
+        this.port = 587;
+        smtpClient.Port = port;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.EnableSsl = true;
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
+    }
     public Email(string user, string pass, int port)
     {
         this.emailUsername = user;
         this.emailPassword = pass;
         this.smtpClient = new SmtpClient("smtp.office365.com");
+        this.port = port;
+        smtpClient.Port = port;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.EnableSsl = true;
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
+    }
+    public Email(string mailClient, string user, string pass, int port)
+    {
+        this.emailUsername = user;
+        this.emailPassword = pass;
+        this.smtpClient = new SmtpClient(mailClient);
         this.port = port;
         smtpClient.Port = port;
         smtpClient.UseDefaultCredentials = false;
@@ -65,6 +89,62 @@ public class Email
     public Email(SecretClient azVault, string user, string pass, int port)
     {
         this.smtpClient = new SmtpClient("smtp.office365.com");
+        this.port = port;
+        smtpClient.Port = this.port;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.EnableSsl = true;
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        try
+        {
+            KeyVaultSecret sec = azVault.GetSecret(user);
+            this.emailUsername = sec.Value;
+        }
+        catch
+        {
+            this.emailUsername = user;
+        }
+        try
+        {
+            KeyVaultSecret sec = azVault.GetSecret(pass);
+            this.emailPassword = sec.Value;
+        }
+        catch
+        {
+            this.emailPassword = pass;
+        }
+        smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
+    }
+    public Email(SecretClient azVault, string mailClient, string user, string pass)
+    {
+        this.smtpClient = new SmtpClient(mailClient);
+        this.port = 587;
+        smtpClient.Port = this.port;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.EnableSsl = true;
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        try
+        {
+            KeyVaultSecret sec = azVault.GetSecret(user);
+            this.emailUsername = sec.Value;
+        }
+        catch
+        {
+            this.emailUsername = user;
+        }
+        try
+        {
+            KeyVaultSecret sec = azVault.GetSecret(pass);
+            this.emailPassword = sec.Value;
+        }
+        catch
+        {
+            this.emailPassword = pass;
+        }
+        smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
+    }
+    public Email(SecretClient azVault,string mailClient, string user, string pass, int port)
+    {
+        this.smtpClient = new SmtpClient(mailClient);
         this.port = port;
         smtpClient.Port = this.port;
         smtpClient.UseDefaultCredentials = false;
