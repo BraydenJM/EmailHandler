@@ -10,6 +10,11 @@ public class Email
     string emailUsername { get; set; }
     string emailPassword { get; set; }
 
+    /// <summary>
+    /// creates an email client using the defailt port of 587 and the office365 smtp provider.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
     public Email(string user, string pass)
     {
         this.emailUsername = user;
@@ -22,6 +27,12 @@ public class Email
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    /// <summary>
+    /// creates an email client using the defailt port of 587.
+    /// </summary>
+    /// <param name="mailClient"></param>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
     public Email(string mailClient, string user, string pass)
     {
         this.emailUsername = user;
@@ -34,6 +45,12 @@ public class Email
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    /// <summary>
+    /// creates an email client using the defailt port of 587.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
+    /// <param name="port"></param>
     public Email(string user, string pass, int port)
     {
         this.emailUsername = user;
@@ -46,6 +63,13 @@ public class Email
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    /// <summary>
+    /// Creates an email client using all parameters provided in the constructor arguments
+    /// </summary>
+    /// <param name="mailClient"></param>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
+    /// <param name="port"></param>
     public Email(string mailClient, string user, string pass, int port)
     {
         this.emailUsername = user;
@@ -58,6 +82,13 @@ public class Email
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    /// <summary>
+    /// Uses email username and password values stored in azure keyvault secrets. If values provided in the args cannot be found in the secred vault
+    /// constructor will use the raw string values instead. Uses Officer 365 as the email client and 587 as the default port.
+    /// </summary>
+    /// <param name="azVault"></param>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
     public Email(SecretClient azVault, string user, string pass)
     {
         this.smtpClient = new SmtpClient("smtp.office365.com");
@@ -86,6 +117,15 @@ public class Email
         }
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    /// <summary>
+    /// Uses email username and password values stored in azure keyvault secrets. If values provided in the args cannot be found in the secred vault
+    /// constructor will use the raw string values instead. Uses Officer 365 as the email client. Uses the integer value for port provided in the
+    /// constructor arguments.
+    /// </summary>
+    /// <param name="azVault"></param>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
+    /// <param name="port"></param>
     public Email(SecretClient azVault, string user, string pass, int port)
     {
         this.smtpClient = new SmtpClient("smtp.office365.com");
@@ -114,6 +154,15 @@ public class Email
         }
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
+    /// <summary>
+    /// Uses email username and password values stored in azure keyvault secrets. If values provided in the args cannot be found in the secred vault
+    /// constructor will use the raw string values instead. Uses the default port of 587. Uses the string value for mailClient provided in the
+    /// constructor arguments.
+    /// </summary>
+    /// <param name="azVault"></param>
+    /// <param name="mailClient"></param>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
     public Email(SecretClient azVault, string mailClient, string user, string pass)
     {
         this.smtpClient = new SmtpClient(mailClient);
@@ -142,7 +191,17 @@ public class Email
         }
         smtpClient.Credentials = new NetworkCredential(emailUsername, emailPassword);
     }
-    public Email(SecretClient azVault,string mailClient, string user, string pass, int port)
+    /// <summary>
+    /// Uses email username and password values stored in azure keyvault secrets. If values provided in the args cannot be found in the secred vault
+    /// constructor will use the raw string values instead. All other values are not pulled from azure vault and the constructor instead uses the string
+    /// value for mailClient and the integer value for port provided in the constructor arguments.
+    /// </summary>
+    /// <param name="azVault"></param>
+    /// <param name="mailClient"></param>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
+    /// <param name="port"></param>
+    public Email(SecretClient azVault, string mailClient, string user, string pass, int port)
     {
         this.smtpClient = new SmtpClient(mailClient);
         this.port = port;
