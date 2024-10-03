@@ -258,4 +258,18 @@ public class Email
         smtpClient.Send(message);
     }
 
+    /// <summary>
+    /// send email to recipient in method args with the body formatted in HTML
+    /// </summary>
+    /// <param name="recipient">email message recipient</param>
+    /// <param name="subject">enail message subject</param>
+    /// <param name="body">email message body</param>
+    public void sendMessageHtml(string recipient, string subject, string body)
+    {
+        MailMessage mail = new MailMessage(emailUsername, recipient, subject, body);
+        mail.IsBodyHtml = true;
+        smtpClient.Send(mail);
+        smtpClient.Send(emailUsername, recipient, subject, body);
+    }
+
 }
