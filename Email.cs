@@ -269,7 +269,6 @@ public class Email
         MailMessage mail = new MailMessage(emailUsername, recipient, subject, body);
         mail.IsBodyHtml = true;
         smtpClient.Send(mail);
-        smtpClient.Send(emailUsername, recipient, subject, body);
     }
 
 }
